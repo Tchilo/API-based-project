@@ -8,6 +8,8 @@ const dispayItem = document.querySelector('.display-items');
 const modal = document.querySelector('.modal');
 const modalImage = document.querySelector('.modal-inner-img');
 const addCooment = document.querySelector('.form');
+const comentCount = document.querySelector('.count');
+const comentInner = document.querySelector('.coment-item');
 
 // const artContent = document.createElement('div')
 const likes = [];
@@ -110,7 +112,7 @@ const displayDom = async () => {
             <span class="like-count">
             ${img.likes} Likes
             </span>
-          <img class="comment" id="${img.id}" src="${img2}" alt="comment icon">&nbsp;<span class="comment-count"><span class='count'>0</span>Comments</span>
+          <img class="comment" id="${img.id}" src="${img2}" alt="comment icon">&nbsp;<span class="comment-count">Comments</span>
         </figcaption>
       </figure>
     </div>`
@@ -121,13 +123,29 @@ const displayDom = async () => {
 }
 
 const getComent = async (id) => {
- 
+
   const index = id;
-    console.log('index', id);
+  console.log('index', id);
   const appID = 'EcrLn3r66HMsOKcAai7Q';
   const resp = await fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appID}/comments?item_id=${index}`);
+  console.log(resp)
   const data = await resp.json()
   console.log(data, 'data');
+  comentCount.innerHTML = 0;
+  if (data) {
+    comentCount.innerHTML = data.length;
+    let modalDisp = '';
+    data.forEach((item) => {
+      modalDisp += `
+      <div class="items">
+         <span>${item.creation_date}</span>
+           <span>${item.username}</span>:
+         <span>${item.comment}</span>
+       </div>
+      `
+      comentInner.innerHTML = modalDisp
+    })
+  }
   return data;
 }
 
@@ -160,7 +178,7 @@ const comments = async (id, username, comment) => {
   const appID = 'EcrLn3r66HMsOKcAai7Q';
   const userdata = {
     item_id: id,
-     username,
+    username,
     comment
   }
   const body = JSON.stringify(userdata);
@@ -178,8 +196,8 @@ const comments = async (id, username, comment) => {
 
   });
   console.log('resp', resp, resp.ok);
-  if(resp.ok) {
-    commentsArray.push({id, Comment})
+  if (resp.ok) {
+    commentsArray.push({ id, Comment })
   }
   return resp;
 };
@@ -204,7 +222,12 @@ addCooment.addEventListener('submit', async (e) => {
 });
 
 console.log(commentsArray);
-dispayItem.addEventListener('click', checModal)
+dispayItem.addEventListener('click', checModal);
+modal.addEventListener('click', (e) => {
+  if(e.target.classList.contains('modal')) {
+    modal.classList.remove('show-modal')
+  }
+})
 
 window.onload = () => {
   displayDom();
