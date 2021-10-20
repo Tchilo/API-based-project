@@ -131,10 +131,16 @@ const getComent = async (id) => {
   console.log(resp)
   const data = await resp.json()
   console.log(data, 'data');
-  comentCount.innerHTML = 0;
-  if (data) {
+  // comentCount.innerHTML = 0;
+  console.log('image id', modalImage.id);
+  let modalDisp = '';
+  if(!resp.status !== 200) {
+    comentCount.innerHTML = 0;
+    comentInner.innerHTML = ''
+  }
+
+  if (data.length >0 && index === modalImage.id && resp.status === 200) {
     comentCount.innerHTML = data.length;
-    let modalDisp = '';
     data.forEach((item) => {
       modalDisp += `
       <div class="items">
@@ -146,7 +152,7 @@ const getComent = async (id) => {
       comentInner.innerHTML = modalDisp
     })
   }
-  return data;
+  // return data;
 }
 
 
