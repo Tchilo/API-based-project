@@ -10,8 +10,6 @@ In this project, we built a web-based API app to fetch and display art images fr
 - [Unsplash API](https://unsplash.com/developers)
 - Lots of love :heart:
 
-# Video Explainer
-[Link to Video]()
 
 ## API 
  Information on how to use the API can be found [here](https://unsplash.com/developers)
