@@ -17,10 +17,12 @@ In this project, we built a web-based API app to fetch and display art images fr
  Information on how to use the API can be found [here](https://unsplash.com/developers)
  
 ## Live Demo
-[Live Link]()
+[Live Link](https://wolves852.netlify.app/)
 
 # Main Section
-![homepage-screenshot (1)]()
+![homepage-screenshot](wolves.png)
+# Comment popup
+![Comment popup](wolvecom.png)
 
 ## Getting Started
 To get a local copy up and running follow these simple example steps.
@@ -46,7 +48,7 @@ npx eslint .
 
 ## Authors:
 
-👤 # Victor Chukwu
+# 👤Victor Chukwu 
 
 [<code><img height="26" src="https://cdn.iconscout.com/icon/free/png-256/github-153-675523.png"></code>](https://github.com/VICTOR-CHUKWU)
  
