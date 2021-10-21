@@ -7,6 +7,7 @@ const url = 'https://api.unsplash.com/search/photos/?query=wolves&client_id=hqIu
 const dispayItem = document.querySelector('.display-items');
 const modal = document.querySelector('.modal');
 const modalImage = document.querySelector('.modal-inner-img');
+const modalHeader = document.querySelector('.modal-header');
 const addCooment = document.querySelector('.form');
 const comentCount = document.querySelector('.count');
 const comentInner = document.querySelector('.coment-item');
@@ -119,11 +120,13 @@ const openModal = () => {
 const checModal = async (e) => {
   const item = e.target;
   const displayData = await getImages()
+  console.log(displayData);
   const parent = item.id;
   const findItem = displayData.find((a) => a.id === parent)
   if (item.classList.contains('comment')) {
     openModal()
     modalImage.src = findItem.urls.regular;
+    modalHeader.innerHTML = findItem.alt_description;
     modalImage.setAttribute('id', parent);
     getComent(parent)
   }
