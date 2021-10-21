@@ -2,7 +2,7 @@ import img1 from './heart-filled.png';
 import img2 from './comment.png';
 import './style.css';
 
-const url = 'https://api.unsplash.com/search/photos/?query=wolves&client_id=hqIuLjE9dvD_RaTipe85QCnRnS5o2VT0SzHUY1ss5nQ'
+const url = 'https://api.unsplash.com/search/photos/?query=wolves&client_id=hqIuLjE9dvD_RaTipe85QCnRnS5o2VT0SzHUY1ss5nQ';
 
 const dispayItem = document.querySelector('.display-items');
 const modal = document.querySelector('.modal');
@@ -13,7 +13,7 @@ const comentCount = document.querySelector('.count');
 const comentInner = document.querySelector('.coment-item');
 
 const likes = [];
-const commentsArray = []
+const commentsArray = [];
 
 const updateLikes = async () => {
   const appID = 'EcrLn3r66HMsOKcAai7Q';
@@ -58,12 +58,12 @@ const getLikeElements = (images) => {
 const getImages = async () => {
   const response = await fetch(url);
   const data = await response.json();
-  return data.results
+  return data.results;
 };
 
 const displayDom = async () => {
-  const displayData = await getImages()
-  let disp = ''
+  const displayData = await getImages();
+  let disp = '';
   displayData.forEach((img, index) => {
     disp += `
     <div class="article-style">
@@ -79,26 +79,24 @@ const displayDom = async () => {
           <img class="comment" id="${img.id}" src="${img2}" alt="comment icon">&nbsp;<span class="comment-count">Comments</span>
         </figcaption>
       </figure>
-    </div>`
-  })
+    </div>`;
+  });
   dispayItem.innerHTML = disp;
   getLikeElements(displayData);
-
-}
+};
 
 const getComent = async (id) => {
-
   const index = id;
   const appID = 'EcrLn3r66HMsOKcAai7Q';
   const resp = await fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appID}/comments?item_id=${index}`);
-  const data = await resp.json()
+  const data = await resp.json();
   let modalDisp = '';
-  if(!resp.status !== 200) {
+  if (!resp.status !== 200) {
     comentCount.innerHTML = 0;
-    comentInner.innerHTML = ''
+    comentInner.innerHTML = '';
   }
 
-  if (data.length >0 && index === modalImage.id && resp.status === 200) {
+  if (data.length > 0 && index === modalImage.id && resp.status === 200) {
     comentCount.innerHTML = data.length;
     data.forEach((item) => {
       modalDisp += `
@@ -107,38 +105,36 @@ const getComent = async (id) => {
            <span>${item.username}</span>:
          <span>${item.comment}</span>
        </div>
-      `
-      comentInner.innerHTML = modalDisp
-    })
+      `;
+      comentInner.innerHTML = modalDisp;
+    });
   }
-}
+};
 
-const openModal = () => {
-  return modal.classList.add('show-modal')
-}
+const openModal = () => modal.classList.add('show-modal');
 
 const checModal = async (e) => {
   const item = e.target;
-  const displayData = await getImages()
+  const displayData = await getImages();
   console.log(displayData);
   const parent = item.id;
-  const findItem = displayData.find((a) => a.id === parent)
+  const findItem = displayData.find((a) => a.id === parent);
   if (item.classList.contains('comment')) {
-    openModal()
+    openModal();
     modalImage.src = findItem.urls.regular;
     modalHeader.innerHTML = findItem.alt_description;
     modalImage.setAttribute('id', parent);
-    getComent(parent)
+    getComent(parent);
   }
-}
+};
 
 const comments = async (id, username, comment) => {
   const appID = 'EcrLn3r66HMsOKcAai7Q';
   const userdata = {
     item_id: id,
     username,
-    comment
-  }
+    comment,
+  };
   const body = JSON.stringify(userdata);
 
   const resp = await fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appID}/comments/`, {
@@ -150,7 +146,7 @@ const comments = async (id, username, comment) => {
 
   });
   if (resp.ok) {
-    commentsArray.push({ id, Comment })
+    commentsArray.push({ id, Comment });
   }
   return resp;
 };
@@ -161,22 +157,22 @@ addCooment.addEventListener('submit', async (e) => {
   const text = document.querySelector('#text');
   const userName = username.value;
   const comment = text.value;
-  let id = modalImage.id;
+  const { id } = modalImage;
   if (userName !== '' && comment !== '') {
     await comments(id, userName, comment);
   }
 
   username.value = '';
   text.value = '';
-  modal.classList.remove('show-modal')
+  modal.classList.remove('show-modal');
 });
 
 dispayItem.addEventListener('click', checModal);
 modal.addEventListener('click', (e) => {
-  if(e.target.classList.contains('modal')) {
-    modal.classList.remove('show-modal')
+  if (e.target.classList.contains('modal')) {
+    modal.classList.remove('show-modal');
   }
-})
+});
 
 window.onload = () => {
   displayDom();
