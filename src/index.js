@@ -14,7 +14,6 @@ const comentInner = document.querySelector('.coment-item');
 const likes = [];
 const commentsArray = []
 
-
 const updateLikes = async () => {
   const appID = 'EcrLn3r66HMsOKcAai7Q';
   await fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appID}/likes`)
@@ -42,7 +41,6 @@ const like = async (id) => {
 };
 
 const getLikeElements = (images) => {
-  console.log(images);
   const hearts = document.querySelectorAll('.like');
   const likeCounter = document.querySelectorAll('.like-count');
   hearts.forEach((heart, index) => {
@@ -75,7 +73,7 @@ const displayDom = async () => {
         <figcaption class="caption-content">
           <img class="like" id="${img.id}" src="${img1}" alt="like icon">&nbsp;
             <span class="like-count">
-            ${img.likes} Likes
+           Likes
             </span>
           <img class="comment" id="${img.id}" src="${img2}" alt="comment icon">&nbsp;<span class="comment-count">Comments</span>
         </figcaption>
