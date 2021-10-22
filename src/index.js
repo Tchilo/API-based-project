@@ -16,18 +16,31 @@ const likes = [];
 const commentsArray = [];
 
 const updateLikes = async () => {
-  const appID = 'EcrLn3r66HMsOKcAai7Q';
+  const appID = 'gyC7pSTlqWve5KqylHam';
   await fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appID}/likes`)
     .then((response) => response.json())
     .then((data) => {
-      data.forEach((article) => {
+      data.forEach((article) => {       
         likes.push(article.likes);
+        displayLikes(data, article.item_id)
       });
+
     });
 };
 
+const displayLikes = (article,id) => {
+  article.forEach((item) => {
+    if (item.item_id === id ) {
+      const heart = document.querySelector('#'+id);
+      const likesCounter = heart.nextElementSibling;
+      likesCounter.innerHTML = `${item.likes} Likes`;
+    }
+  });
+}
+
+
 const like = async (id) => {
-  const appID = 'EcrLn3r66HMsOKcAai7Q';
+  const appID = 'gyC7pSTlqWve5KqylHam';
   await fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appID}/likes/`, {
     method: 'Post',
     headers: {
@@ -74,7 +87,7 @@ const displayDom = async () => {
         <figcaption class="caption-content">
           <img class="like" id="${img.id}" src="${img1}" alt="like icon">&nbsp;
             <span class="like-count">
-           Likes
+      0 Likes
             </span>
           <img class="comment" id="${img.id}" src="${img2}" alt="comment icon">&nbsp;<span class="comment-count">Comments</span>
         </figcaption>
@@ -87,7 +100,7 @@ const displayDom = async () => {
 
 const getComent = async (id) => {
   const index = id;
-  const appID = 'EcrLn3r66HMsOKcAai7Q';
+  const appID = 'gyC7pSTlqWve5KqylHam';
   const resp = await fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/${appID}/comments?item_id=${index}`);
   const data = await resp.json();
   let modalDisp = '';
@@ -116,7 +129,6 @@ const openModal = () => modal.classList.add('show-modal');
 const checModal = async (e) => {
   const item = e.target;
   const displayData = await getImages();
-  console.log(displayData);
   const parent = item.id;
   const findItem = displayData.find((a) => a.id === parent);
   if (item.classList.contains('comment')) {
@@ -129,7 +141,7 @@ const checModal = async (e) => {
 };
 
 const comments = async (id, username, comment) => {
-  const appID = 'EcrLn3r66HMsOKcAai7Q';
+  const appID = 'gyC7pSTlqWve5KqylHam';
   const userdata = {
     item_id: id,
     username,
